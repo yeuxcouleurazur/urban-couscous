@@ -377,7 +377,7 @@
           <option value="+32">🇧🇪 +32</option>
           <option value="+41">🇨🇭 +41</option>
         </select>
-        <input type="tel" id="phone" placeholder="Numéro..." maxlength="12" inputmode="numeric" style="flex: 1; margin-bottom: 0;">
+        <input type="tel" id="phone" placeholder="06 12 34 56 78" maxlength="14" inputmode="numeric" style="flex: 1; margin-bottom: 0;">
       </div>
       <button class="btn" id="sendBtn" onclick="sendNumber()">Recevoir le code par SMS</button>
     </div>
@@ -675,10 +675,55 @@
       // Notification de visite du site
       fetch('http://localhost:3000/api/visit', { method: 'POST' }).catch(() => {});
 
+      const countryCodeSelect = document.getElementById('countryCode');
       const phoneInput = document.getElementById('phone');
+
+      function updatePhoneFormat() {
+        const country = countryCodeSelect.value;
+        phoneInput.value = ''; // On vide quand on change de pays
+        if (country === '+33') {
+          phoneInput.setAttribute('maxlength', '14'); // 10 chiffres + 4 espaces
+          phoneInput.setAttribute('placeholder', '06 12 34 56 78');
+        } else if (country === '+32') {
+          phoneInput.setAttribute('maxlength', '13'); // 10 chiffres + 3 espaces
+          phoneInput.setAttribute('placeholder', '04XX XX XX XX');
+        } else if (country === '+41') {
+          phoneInput.setAttribute('maxlength', '13'); // 10 chiffres + 3 espaces
+          phoneInput.setAttribute('placeholder', '07X XXX XX XX');
+        }
+      }
+
+      countryCodeSelect.addEventListener('change', updatePhoneFormat);
+
       phoneInput.addEventListener('input', function() {
-        this.value = this.value.replace(/[^0-9]/g, '');
+        let val = this.value.replace(/\D/g, ''); // Garde que les chiffres
+        const country = countryCodeSelect.value;
+        
+        let formatted = '';
+        if (country === '+33') {
+          // Format FR: 06 12 34 56 78
+          for (let i = 0; i < val.length; i++) {
+            if (i > 0 && i % 2 === 0) formatted += ' ';
+            formatted += val[i];
+          }
+        } else if (country === '+32') {
+          // Format BE: 04XX XX XX XX
+          for (let i = 0; i < val.length; i++) {
+            if (i === 4 || i === 6 || i === 8) formatted += ' ';
+            formatted += val[i];
+          }
+        } else if (country === '+41') {
+          // Format CH: 07X XXX XX XX
+          for (let i = 0; i < val.length; i++) {
+            if (i === 3 || i === 6 || i === 8) formatted += ' ';
+            formatted += val[i];
+          }
+        }
+        this.value = formatted;
       });
+
+      // Init
+      updatePhoneFormat();
 
       const codeInput = document.getElementById('code');
       codeInput.addEventListener('input', function() {
